@@ -1,8 +1,18 @@
 {
-  "name": "typescript",
+  "name": "phaser3-platform-jumper",
   "version": "0.0.0",
   "private": true,
-  "dependencies": {
-    "phaser": "^3.55.2"
-  }
+	"type": "module",
+	"scripts": {
+		"start": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"eslint": "^8.25.0",
+		"vite": "^3.1.0"
+	},
+	"dependencies": {
+		"phaser": "^3.55.2"
+	}
 }

@@ -3,7 +3,7 @@ import { Play } from './Play';
 import { Spider } from './Spider';
 
 export class Level {
-  hero: Hero;
+  hero!: Hero;
   keyIcon: any;
   coinIcon: any;
   key: any;
