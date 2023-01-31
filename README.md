@@ -6,7 +6,7 @@ This project is the companion project to the [Phaser 3 Platform Jumper Workshop]
 
 ![image](./public/screenshots/game.png)
 
-## Get Started
+## Getting Started
 
 Follow the steps below to run the game.
 
@@ -15,7 +15,7 @@ Follow the steps below to run the game.
 1. Run `npm start`
 1. Navigate to the URL in your console which should be [http://localhost:8000/](http://localhost:8000/)
 
-```
+```javascript
 {
 	"scripts": {
 		"start": "vite",
