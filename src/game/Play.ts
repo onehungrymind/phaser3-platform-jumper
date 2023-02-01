@@ -15,6 +15,7 @@ export class Play extends Phaser.Scene {
   create() {
     console.log('Play.create()');
     this.initLevel();
+    this.initPhysics();
   }
 
   update() {
@@ -25,6 +26,10 @@ export class Play extends Phaser.Scene {
     this.level = new Level(this);
     this.gotoLevel(this.currentLevel);
     this.mapProps();
+  }
+
+  initPhysics() {
+    this.physics.add.collider(this.hero, this.level.platforms);
   }
 
   private mapProps() {
