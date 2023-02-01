@@ -26,6 +26,8 @@ export class Boot extends Phaser.Scene {
       frameWidth: 36,
       frameHeight: 42,
     });
+
+    this.load.audio('sfx:jump', 'audio/jump.wav');
   }
 
   create() {

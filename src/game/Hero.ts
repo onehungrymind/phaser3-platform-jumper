@@ -10,7 +10,9 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
-    if (this.keys.left.isDown) {
+    if (this.keys.up.isDown && this.body.touching.down) {
+      this.jump();
+    } else if (this.keys.left.isDown) {
       this.runLeft();
     } else if (this.keys.right.isDown) {
       this.runRight();
@@ -19,14 +21,17 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
+  jump() {
+    this.setVelocityY(-330);
+    this.scene.sound.play('sfx:jump');
+  }
+
   runRight() {
     this.setVelocityX(160);
-    this.flipX = false;
   }
 
   runLeft() {
     this.setVelocityX(-160);
-    this.flipX = true;
   }
 
   halt() {

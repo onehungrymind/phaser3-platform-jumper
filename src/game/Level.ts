@@ -23,6 +23,7 @@ export class Level {
     this.groups.players.add(this.hero, true);
 
     // Now that hero has been added to the scene...
+    this.hero.setBounce(0.3);
     this.hero.setCollideWorldBounds(true);
   }
 
