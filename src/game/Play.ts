@@ -2,8 +2,11 @@ import { Hero } from './Hero';
 import { Level } from './Level';
 
 export class Play extends Phaser.Scene {
+  hero!: Hero;
   level!: Level;
   currentLevel: integer = 2;
+
+  groups!: { [key: string]: Phaser.Physics.Arcade.Group };
 
   constructor() {
     super('Play');
@@ -15,12 +18,22 @@ export class Play extends Phaser.Scene {
   }
 
   update() {
-    // console.log('Play.update()');
+    this.hero.update();
   }
 
   initLevel() {
     this.level = new Level(this);
     this.gotoLevel(this.currentLevel);
+    this.mapProps();
+  }
+
+  private mapProps() {
+    const props = [
+      'hero',
+      'groups',
+    ];
+
+    props.forEach((prop) => (this[prop] = this.level[prop]));
   }
 
   private gotoLevel(level) {
