@@ -1,15 +1,29 @@
+import { Hero } from './Hero';
 import { Play } from './Play';
 export class Level {
+  hero!: Hero;
   platforms!: Phaser.Physics.Arcade.StaticGroup;
+  groups!: { [key: string]: Phaser.Physics.Arcade.Group };
 
   constructor(private scene: Play) {
     this.platforms = this.scene.physics.add.staticGroup();
+    this.groups = {
+      players: this.scene.physics.add.group(),
+    };
   }
 
   loadLevel(data) {
     this.spawnBG();
-        
     this.spawnPlatforms(data.platforms);
+    this.spawnHero(data.hero);  
+  }
+
+  spawnHero(hero) {
+    this.hero = new Hero(this.scene, hero.x, hero.y);
+    this.groups.players.add(this.hero, true);
+
+    // Now that hero has been added to the scene...
+    this.hero.setCollideWorldBounds(true);
   }
 
   spawnPlatforms(platforms) {

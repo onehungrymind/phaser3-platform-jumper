@@ -1,3 +1,4 @@
+import { Hero } from './Hero';
 import { Level } from './Level';
 
 export class Play extends Phaser.Scene {

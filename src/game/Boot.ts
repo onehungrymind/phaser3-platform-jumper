@@ -21,6 +21,11 @@ export class Boot extends Phaser.Scene {
     this.load.image('grass:4x1', 'images/grass_4x1.png');
     this.load.image('grass:2x1', 'images/grass_2x1.png');
     this.load.image('grass:1x1', 'images/grass_1x1.png');
+
+    this.load.spritesheet('hero', 'images/hero.png', {
+      frameWidth: 36,
+      frameHeight: 42,
+    });
   }
 
   create() {
