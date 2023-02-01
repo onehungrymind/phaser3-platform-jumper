@@ -2,6 +2,7 @@ import { Level } from './Level';
 
 export class Play extends Phaser.Scene {
   level!: Level;
+  currentLevel: integer = 2;
 
   constructor() {
     super('Play');
@@ -13,11 +14,15 @@ export class Play extends Phaser.Scene {
   }
 
   update() {
-    console.log('Play.update()');
+    // console.log('Play.update()');
   }
 
   initLevel() {
     this.level = new Level(this);
-    this.level.loadLevel();
+    this.gotoLevel(this.currentLevel);
+  }
+
+  private gotoLevel(level) {
+    this.level.loadLevel(this.cache.json.get(`level:${level}`));
   }
 }
