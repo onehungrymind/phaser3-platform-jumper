@@ -30,6 +30,19 @@ export class Play extends Phaser.Scene {
 
   initPhysics() {
     this.physics.add.collider(this.hero, this.level.platforms);
+
+    this.physics.add.overlap(
+      this.hero,
+      this.groups.coins,
+      this.collectCoin,
+      undefined,
+      this
+    );
+  }
+
+  collectCoin(hero, coin) {
+    coin.destroy();
+    this.sound.play('sfx:coin');
   }
 
   private mapProps() {

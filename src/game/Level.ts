@@ -9,13 +9,28 @@ export class Level {
     this.platforms = this.scene.physics.add.staticGroup();
     this.groups = {
       players: this.scene.physics.add.group(),
+      coins: this.scene.physics.add.group({ allowGravity: false }),
     };
   }
 
   loadLevel(data) {
     this.spawnBG();
     this.spawnPlatforms(data.platforms);
-    this.spawnHero(data.hero);  
+    this.spawnHero(data.hero);
+    this.spawnCoins(data.coins);  
+  }
+
+  spawnCoins(coins) {
+    coins.forEach((coin) => {
+      const _coin = this.spawnCoin(coin);
+      this.groups.coins.add(_coin, true);
+    });
+  }
+
+  spawnCoin(coin) {
+    const _coin = this.scene.add.sprite(coin.x, coin.y, 'coin');
+    _coin.setOrigin(0.5, 0.5);
+    return _coin;
   }
 
   spawnHero(hero) {

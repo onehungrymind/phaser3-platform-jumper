@@ -27,7 +27,13 @@ export class Boot extends Phaser.Scene {
       frameHeight: 42,
     });
 
+    this.load.spritesheet('coin', 'images/coin_animated.png', {
+      frameWidth: 22,
+      frameHeight: 22,
+    });
+
     this.load.audio('sfx:jump', 'audio/jump.wav');
+    this.load.audio('sfx:coin', 'audio/coin.wav');
   }
 
   create() {
