@@ -1,7 +1,7 @@
 import { Boot } from './Boot';
 import { Play } from './Play';
 
-export var gameConfig = {
+export const gameConfig = {
   type: Phaser.AUTO,
   width: 960,
   height: 600,
