@@ -21,6 +21,7 @@ export class Boot extends Phaser.Scene {
     this.load.image('grass:4x1', 'images/grass_4x1.png');
     this.load.image('grass:2x1', 'images/grass_2x1.png');
     this.load.image('grass:1x1', 'images/grass_1x1.png');
+    this.load.image('invisible-wall', 'images/invisible_wall.png');
 
     this.load.spritesheet('hero', 'images/hero.png', {
       frameWidth: 36,
@@ -30,6 +31,11 @@ export class Boot extends Phaser.Scene {
     this.load.spritesheet('coin', 'images/coin_animated.png', {
       frameWidth: 22,
       frameHeight: 22,
+    });
+
+    this.load.spritesheet('spider', 'images/spider.png', {
+      frameWidth: 42,
+      frameHeight: 32,
     });
 
     this.load.audio('sfx:jump', 'audio/jump.wav');

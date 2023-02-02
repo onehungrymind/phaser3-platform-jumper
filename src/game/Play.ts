@@ -1,8 +1,10 @@
 import { Hero } from './Hero';
 import { Level } from './Level';
+import { Spider } from './Spider';
 
 export class Play extends Phaser.Scene {
   hero!: Hero;
+  spiders!: Spider[];
   level!: Level;
   currentLevel: integer = 2;
 
@@ -20,6 +22,7 @@ export class Play extends Phaser.Scene {
 
   update() {
     this.hero.update();
+    this.spiders.forEach((spider) => spider.update());
   }
 
   initLevel() {
@@ -30,7 +33,9 @@ export class Play extends Phaser.Scene {
 
   initPhysics() {
     this.physics.add.collider(this.hero, this.level.platforms);
-
+    this.physics.add.collider(this.groups.spiders, this.level.platforms);
+    // this.physics.add.collider(this.groups.spiders, this.groups.enemyWalls);
+    
     this.physics.add.overlap(
       this.hero,
       this.groups.coins,
@@ -49,6 +54,7 @@ export class Play extends Phaser.Scene {
     const props = [
       'hero',
       'groups',
+      'spiders',
     ];
 
     props.forEach((prop) => (this[prop] = this.level[prop]));
