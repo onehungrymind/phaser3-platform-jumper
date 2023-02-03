@@ -8,9 +8,13 @@ const enum Directions {
 
 export class Spider extends Phaser.Physics.Arcade.Sprite {
   direction = Directions.right;
+  animations!: any;
 
   constructor(scene: Play, x, y) {
     super(scene, x, y, 'spider');
+
+    this.animations = scene.getAnimations('spider');
+
     this.setOrigin(0.5, 0.5);
   }
 
@@ -30,6 +34,7 @@ export class Spider extends Phaser.Physics.Arcade.Sprite {
   crawl(direction) {
     const velocity = this.getVelocity(direction);
     this.setVelocityX(velocity);
+    this.anims.play(this.animations.crawl, true);
   }
 
   private getVelocity(direction) {

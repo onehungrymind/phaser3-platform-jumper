@@ -3,11 +3,15 @@ import { Play } from './Play';
 import { Spider } from './Spider';
 export class Level {
   hero!: Hero;
+  spiders: Spider[] = [];
+  
   platforms!: Phaser.Physics.Arcade.StaticGroup;
   groups!: { [key: string]: Phaser.Physics.Arcade.Group };
-  spiders: Spider[] = [];
+  
+  animations!: any;
 
   constructor(private scene: Play) {
+    this.animations = this.scene.getAnimations('elements');
     this.platforms = this.scene.physics.add.staticGroup();
     this.groups = {
       players: this.scene.physics.add.group(),
@@ -65,6 +69,7 @@ export class Level {
   spawnCoin(coin) {
     const _coin = this.scene.add.sprite(coin.x, coin.y, 'coin');
     _coin.setOrigin(0.5, 0.5);
+    _coin.anims.play(this.animations.coin.rotate, true);
     return _coin;
   }
 

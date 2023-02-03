@@ -1,3 +1,4 @@
+import { Animations } from './Animations';
 import { Hero } from './Hero';
 import { Level } from './Level';
 import { Spider } from './Spider';
@@ -10,12 +11,15 @@ export class Play extends Phaser.Scene {
 
   groups!: { [key: string]: Phaser.Physics.Arcade.Group };
 
+  animations!: Animations;
+
   constructor() {
     super('Play');
   }
 
   create() {
     console.log('Play.create()');
+    this.initAnimations();
     this.initLevel();
     this.initPhysics();
   }
@@ -23,6 +27,10 @@ export class Play extends Phaser.Scene {
   update() {
     this.hero.update();
     this.spiders.forEach((spider) => spider.update());
+  }
+
+  initAnimations() {
+    this.animations = new Animations(this);
   }
 
   initLevel() {
@@ -34,7 +42,7 @@ export class Play extends Phaser.Scene {
   initPhysics() {
     this.physics.add.collider(this.hero, this.level.platforms);
     this.physics.add.collider(this.groups.spiders, this.level.platforms);
-    // this.physics.add.collider(this.groups.spiders, this.groups.enemyWalls);
+    this.physics.add.collider(this.groups.spiders, this.groups.enemyWalls);
     
     this.physics.add.overlap(
       this.hero,
@@ -48,6 +56,10 @@ export class Play extends Phaser.Scene {
   collectCoin(hero, coin) {
     coin.destroy();
     this.sound.play('sfx:coin');
+  }
+
+  getAnimations(key: string) {
+    return this.animations.getAnimations(key);
   }
 
   private mapProps() {
