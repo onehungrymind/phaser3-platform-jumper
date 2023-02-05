@@ -2,6 +2,7 @@ import { Play } from './Play';
 
 export class Hero extends Phaser.Physics.Arcade.Sprite {
   keys!: Phaser.Types.Input.Keyboard.CursorKeys;
+  dead = false;
   animations!: any;
   
   constructor(scene: Play, x, y) {
@@ -12,6 +13,8 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
+    if (this.dead) return; // Hero is dead... do nothing
+
     if (this.keys.up.isDown && this.body.touching.down) {
       this.jump();
     } else if (this.keys.left.isDown) {
@@ -26,6 +29,11 @@ export class Hero extends Phaser.Physics.Arcade.Sprite {
     if (this.anims.getName() !== animationName) {
       this.anims.play(animationName);
     }
+  }
+
+  die() {
+    this.dead = true;
+    this.anims.play(this.animations.dying, true);
   }
 
   jump() {

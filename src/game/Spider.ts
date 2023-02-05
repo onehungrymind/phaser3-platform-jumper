@@ -9,6 +9,7 @@ const enum Directions {
 export class Spider extends Phaser.Physics.Arcade.Sprite {
   direction = Directions.right;
   animations!: any;
+  dead = false;
 
   constructor(scene: Play, x, y) {
     super(scene, x, y, 'spider');
@@ -19,7 +20,15 @@ export class Spider extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
-    this.live();
+    if (!this.dead) {
+      this.live();
+    }
+  }
+
+  die() {
+    this.dead = true;
+    this.disableBody();
+    this.anims.play(this.animations.dying, true);
   }
 
   live() {

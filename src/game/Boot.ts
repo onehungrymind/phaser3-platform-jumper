@@ -40,6 +40,7 @@ export class Boot extends Phaser.Scene {
 
     this.load.audio('sfx:jump', 'audio/jump.wav');
     this.load.audio('sfx:coin', 'audio/coin.wav');
+    this.load.audio('sfx:stomp', 'audio/stomp.wav');
   }
 
   create() {

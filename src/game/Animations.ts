@@ -2,6 +2,7 @@ export class Animations {
   map = {
     spider: {
       crawl: 'spider:crawl',
+      dying: 'spider:dying',
     },
     hero: {
       stop: 'hero:stop',
@@ -33,6 +34,16 @@ export class Animations {
       }),
       frameRate: 8,
       repeat: -1,
+    });
+
+    scene.anims.create({
+      key: 'spider:dying',
+      frames: scene.anims.generateFrameNumbers('spider', {
+        frames: [0, 4, 0, 4, 0, 4, 3, 3, 3, 3, 3, 3],
+      }),
+      frameRate: 12,
+      repeat: 0,
+      hideOnComplete: true,
     });
 
     scene.anims.create({

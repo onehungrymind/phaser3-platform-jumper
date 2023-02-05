@@ -21,6 +21,7 @@ export class Play extends Phaser.Scene {
     console.log('Play.create()');
     this.initAnimations();
     this.initLevel();
+    this.initCamera();
     this.initPhysics();
   }
 
@@ -39,6 +40,11 @@ export class Play extends Phaser.Scene {
     this.mapProps();
   }
 
+  initCamera() {
+    this.cameras.main.setBounds(0, 0, 960, 600);
+    this.cameras.main.flash();
+  }
+
   initPhysics() {
     this.physics.add.collider(this.hero, this.level.platforms);
     this.physics.add.collider(this.groups.spiders, this.level.platforms);
@@ -51,6 +57,23 @@ export class Play extends Phaser.Scene {
       undefined,
       this
     );
+
+    this.physics.add.overlap(
+      this.hero,
+      this.groups.spiders,
+      this.doBattle,
+      undefined,
+      this
+    );
+  }
+
+  doBattle(hero, spider) {
+    if (spider.body.touching.up && hero.body.touching.down) {
+      this.sound.play('sfx:stomp');
+      spider.die();
+    } else {
+      this.gameOver();
+    }
   }
 
   collectCoin(hero, coin) {
@@ -60,6 +83,14 @@ export class Play extends Phaser.Scene {
 
   getAnimations(key: string) {
     return this.animations.getAnimations(key);
+  }
+
+  gameOver() {
+    this.hero.die();
+    this.cameras.main.fade(1000);
+    this.cameras.main.on('camerafadeoutcomplete', (camera, effect) => {
+      this.scene.restart();
+    });
   }
 
   private mapProps() {
