@@ -5,6 +5,8 @@ export class Level {
   hero!: Hero;
   spiders: Spider[] = [];
   coinIcon: any;
+  keyIcon: any;
+  key: any;
 
   platforms!: Phaser.Physics.Arcade.StaticGroup;
   groups!: { [key: string]: Phaser.Physics.Arcade.Group };
@@ -23,6 +25,7 @@ export class Level {
         immovable: true,
       }),
       hud: this.scene.physics.add.group({ allowGravity: false }),
+      bgDecoration: this.scene.physics.add.group(),
     };
   }
 
@@ -33,18 +36,46 @@ export class Level {
     this.spawnCoins(data.coins);
     this.spawnSpiders(data.spiders);
     this.spawnEnemyWalls(data.platforms);
+    this.spawnKey(data.key);
     this.spawnHUD();
   }
 
+  spawnKey(key) {
+    this.key = this.groups.bgDecoration.create(key.x, key.y, 'key');
+    this.key.setOrigin(0.5, 0.5);
+    this.key.body.allowGravity = false;
+    this.key.y -= 3;
+
+    this.scene.tweens.add({
+      targets: this.key,
+      y: this.key.y + 6,
+      duration: 500,
+      yoyo: true,
+      loop: -1,
+      ease: 'Sine.easeInOut',
+      delay: 1000,
+    });
+
+    this.addPhysics(this.key);
+  }
+
   spawnHUD() {
+    this.spawnKeyIcon();
     this.spawnCoinIcon();
     this.spawnScoreText();
+  }
+
+  spawnKeyIcon() {
+    this.keyIcon = this.scene.add.image(0, 0, 'icon:key');
+    this.keyIcon.setOrigin(0, 0);
+    this.keyIcon.setPosition(5, 15);
+    this.groups.hud.add(this.keyIcon);
   }
 
   spawnCoinIcon() {
     this.coinIcon = this.scene.add.image(0, 0, 'icon:coin');
     this.coinIcon.setOrigin(0, 0);
-    this.coinIcon.setPosition(10, 10);
+    this.coinIcon.setPosition(this.keyIcon.x + this.keyIcon.width + 10, 10);
     this.groups.hud.add(this.coinIcon);
   }
 
@@ -137,5 +168,9 @@ export class Level {
   spawnBG() {
     const bg = this.scene.add.image(0, 0, 'background');
     bg.setOrigin(0, 0);
+  }
+
+  addPhysics(gameObject, isStatic?) {
+    this.scene.physics.add.existing(gameObject, isStatic);
   }
 }

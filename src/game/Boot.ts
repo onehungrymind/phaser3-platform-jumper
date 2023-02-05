@@ -24,7 +24,8 @@ export class Boot extends Phaser.Scene {
     this.load.image('invisible-wall', 'images/invisible_wall.png');
     this.load.image('font:numbers', 'images/numbers.png');
     this.load.image('icon:coin', 'images/coin_icon.png');
-    
+    this.load.image('key', 'images/key.png');
+
     this.load.spritesheet('hero', 'images/hero.png', {
       frameWidth: 36,
       frameHeight: 42,
@@ -40,9 +41,15 @@ export class Boot extends Phaser.Scene {
       frameHeight: 32,
     });
 
+    this.load.spritesheet('icon:key', 'images/key_icon.png', {
+      frameWidth: 34,
+      frameHeight: 30,
+    });
+
     this.load.audio('sfx:jump', 'audio/jump.wav');
     this.load.audio('sfx:coin', 'audio/coin.wav');
     this.load.audio('sfx:stomp', 'audio/stomp.wav');
+    this.load.audio('sfx:key', 'audio/key.wav');
   }
 
   create() {

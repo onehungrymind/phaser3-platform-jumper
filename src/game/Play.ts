@@ -9,8 +9,11 @@ export class Play extends Phaser.Scene {
   level!: Level;
   currentLevel: integer = 2;
   score: integer = 0;
+  key: any;
   coinIcon: any;
-
+  keyIcon: any;
+  hasKey: boolean = false;
+  
   scoreText!: Phaser.GameObjects.BitmapText;
 
   groups!: { [key: string]: Phaser.Physics.Arcade.Group };
@@ -33,6 +36,9 @@ export class Play extends Phaser.Scene {
   update() {
     this.hero.update();
     this.spiders.forEach((spider) => spider.update());
+
+    const frame = this.hasKey ? 1 : 0;
+    this.keyIcon.setFrame(frame);
   }
 
   initScore() {
@@ -79,6 +85,8 @@ export class Play extends Phaser.Scene {
       undefined,
       this
     );
+
+    this.physics.add.overlap(this.hero, this.key, this.collectKey, undefined, this);
   }
 
   doBattle(hero, spider) {
@@ -88,6 +96,12 @@ export class Play extends Phaser.Scene {
     } else {
       this.gameOver();
     }
+  }
+
+  collectKey(hero, key) {
+    key.destroy();
+    this.sound.play('sfx:key');
+    this.hasKey = true;
   }
 
   collectCoin(hero, coin) {
@@ -103,6 +117,7 @@ export class Play extends Phaser.Scene {
 
   reset() {
     this.score = 0;
+    this.hasKey = false;
   }
 
   gameOver() {
@@ -120,6 +135,8 @@ export class Play extends Phaser.Scene {
       'groups',
       'spiders',
       'coinIcon',
+      'keyIcon',
+      'key',
     ];
 
     props.forEach((prop) => (this[prop] = this.level[prop]));
