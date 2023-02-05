@@ -4,7 +4,8 @@ import { Spider } from './Spider';
 export class Level {
   hero!: Hero;
   spiders: Spider[] = [];
-  
+  coinIcon: any;
+
   platforms!: Phaser.Physics.Arcade.StaticGroup;
   groups!: { [key: string]: Phaser.Physics.Arcade.Group };
   
@@ -21,6 +22,7 @@ export class Level {
         allowGravity: false,
         immovable: true,
       }),
+      hud: this.scene.physics.add.group({ allowGravity: false }),
     };
   }
 
@@ -31,6 +33,39 @@ export class Level {
     this.spawnCoins(data.coins);
     this.spawnSpiders(data.spiders);
     this.spawnEnemyWalls(data.platforms);
+    this.spawnHUD();
+  }
+
+  spawnHUD() {
+    this.spawnCoinIcon();
+    this.spawnScoreText();
+  }
+
+  spawnCoinIcon() {
+    this.coinIcon = this.scene.add.image(0, 0, 'icon:coin');
+    this.coinIcon.setOrigin(0, 0);
+    this.coinIcon.setPosition(10, 10);
+    this.groups.hud.add(this.coinIcon);
+  }
+
+  spawnScoreText() {
+    const config = {
+      image: 'font:numbers',
+      width: 20,
+      height: 26,
+      chars: '0123456789X ',
+      'offset.x': 0,
+      'offset.y': 0,
+      charsPerRow: 6,
+      'spacing.x': 0,
+      'spacing.y': 0,
+      lineSpacing: 1,
+    };
+
+    this.scene.cache.bitmapFont.add(
+      'font:numbers',
+      Phaser.GameObjects.RetroFont.Parse(this.scene, config)
+    );
   }
 
   spawnEnemyWalls(platforms) {

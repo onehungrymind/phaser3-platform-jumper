@@ -8,6 +8,10 @@ export class Play extends Phaser.Scene {
   spiders!: Spider[];
   level!: Level;
   currentLevel: integer = 2;
+  score: integer = 0;
+  coinIcon: any;
+
+  scoreText!: Phaser.GameObjects.BitmapText;
 
   groups!: { [key: string]: Phaser.Physics.Arcade.Group };
 
@@ -23,11 +27,21 @@ export class Play extends Phaser.Scene {
     this.initLevel();
     this.initCamera();
     this.initPhysics();
+    this.initScore();
   }
 
   update() {
     this.hero.update();
     this.spiders.forEach((spider) => spider.update());
+  }
+
+  initScore() {
+    this.scoreText = this.add.bitmapText(
+      this.coinIcon.x + this.coinIcon.width + 5,
+      15,
+      'font:numbers',
+      `X${this.score}`
+    );
   }
 
   initAnimations() {
@@ -79,13 +93,20 @@ export class Play extends Phaser.Scene {
   collectCoin(hero, coin) {
     coin.destroy();
     this.sound.play('sfx:coin');
+    this.score += 1;
+    this.scoreText.text = `X${this.score}`;
   }
 
   getAnimations(key: string) {
     return this.animations.getAnimations(key);
   }
 
+  reset() {
+    this.score = 0;
+  }
+
   gameOver() {
+    this.reset();
     this.hero.die();
     this.cameras.main.fade(1000);
     this.cameras.main.on('camerafadeoutcomplete', (camera, effect) => {
@@ -98,6 +119,7 @@ export class Play extends Phaser.Scene {
       'hero',
       'groups',
       'spiders',
+      'coinIcon',
     ];
 
     props.forEach((prop) => (this[prop] = this.level[prop]));
