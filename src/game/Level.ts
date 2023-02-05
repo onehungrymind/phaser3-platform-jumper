@@ -7,6 +7,7 @@ export class Level {
   coinIcon: any;
   keyIcon: any;
   key: any;
+  door: any;
 
   platforms!: Phaser.Physics.Arcade.StaticGroup;
   groups!: { [key: string]: Phaser.Physics.Arcade.Group };
@@ -31,6 +32,7 @@ export class Level {
 
   loadLevel(data) {
     this.spawnBG();
+    this.spawnDoor(data.door);
     this.spawnPlatforms(data.platforms);
     this.spawnHero(data.hero);
     this.spawnCoins(data.coins);
@@ -38,6 +40,13 @@ export class Level {
     this.spawnEnemyWalls(data.platforms);
     this.spawnKey(data.key);
     this.spawnHUD();
+  }
+ 
+  spawnDoor(door) {
+    this.door = this.groups.bgDecoration.create(door.x, door.y, 'door');
+    this.door.setOrigin(0.5, 1);
+    this.door.body.allowGravity = false;
+    this.addPhysics(this.door);
   }
 
   spawnKey(key) {

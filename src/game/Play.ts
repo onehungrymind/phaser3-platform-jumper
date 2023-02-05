@@ -3,13 +3,16 @@ import { Hero } from './Hero';
 import { Level } from './Level';
 import { Spider } from './Spider';
 
+const LEVEL_COUNT = 2;
+
 export class Play extends Phaser.Scene {
   hero!: Hero;
   spiders!: Spider[];
   level!: Level;
-  currentLevel: integer = 2;
+  currentLevel: integer = 1;
   score: integer = 0;
   key: any;
+  door: any;
   coinIcon: any;
   keyIcon: any;
   hasKey: boolean = false;
@@ -87,6 +90,19 @@ export class Play extends Phaser.Scene {
     );
 
     this.physics.add.overlap(this.hero, this.key, this.collectKey, undefined, this);
+
+    this.physics.add.overlap(
+      this.hero,
+      this.door,
+      this.exitThroughDoor,
+      (hero, door) => this.hasKey && hero.body.touching.down,
+      this
+    );
+  }
+  
+  exitThroughDoor(hero, door) {
+    this.sound.play('sfx:door');
+    this.gotoNextLevel();
   }
 
   doBattle(hero, spider) {
@@ -118,15 +134,27 @@ export class Play extends Phaser.Scene {
   reset() {
     this.score = 0;
     this.hasKey = false;
+    this.cameras.main.fade(1000);
+    this.cameras.main.on('camerafadeoutcomplete', (camera, effect) => {
+      this.scene.start('Play');
+      this.gotoLevel(this.currentLevel);
+    });
   }
 
   gameOver() {
-    this.reset();
     this.hero.die();
-    this.cameras.main.fade(1000);
-    this.cameras.main.on('camerafadeoutcomplete', (camera, effect) => {
-      this.scene.restart();
-    });
+    this.reset();
+  }
+
+  gotoNextLevel() {
+    this.currentLevel =
+      this.currentLevel < LEVEL_COUNT ? ++this.currentLevel : 1;
+
+    this.reset();
+  }
+
+  gotoLevel(level) {
+    this.level.loadLevel(this.cache.json.get(`level:${level}`));
   }
 
   private mapProps() {
@@ -137,12 +165,9 @@ export class Play extends Phaser.Scene {
       'coinIcon',
       'keyIcon',
       'key',
+      'door',
     ];
 
     props.forEach((prop) => (this[prop] = this.level[prop]));
-  }
-
-  private gotoLevel(level) {
-    this.level.loadLevel(this.cache.json.get(`level:${level}`));
   }
 }
