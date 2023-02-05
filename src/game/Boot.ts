@@ -51,11 +51,17 @@ export class Boot extends Phaser.Scene {
       frameHeight: 66,
     });
 
+    this.load.spritesheet('decoration', 'images/decor.png', {
+      frameWidth: 42,
+      frameHeight: 42,
+    });
+    
     this.load.audio('sfx:jump', 'audio/jump.wav');
     this.load.audio('sfx:coin', 'audio/coin.wav');
     this.load.audio('sfx:stomp', 'audio/stomp.wav');
     this.load.audio('sfx:key', 'audio/key.wav');
     this.load.audio('sfx:door', 'audio/door.wav');
+    this.load.audio('bgm', ['audio/bgm.mp3', 'audio/bgm.ogg']);
   }
 
   create() {

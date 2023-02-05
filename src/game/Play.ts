@@ -34,6 +34,7 @@ export class Play extends Phaser.Scene {
     this.initCamera();
     this.initPhysics();
     this.initScore();
+    this.initMusic();
   }
 
   update() {
@@ -42,6 +43,10 @@ export class Play extends Phaser.Scene {
 
     const frame = this.hasKey ? 1 : 0;
     this.keyIcon.setFrame(frame);
+  }
+
+  initMusic() {
+    this.sound.play('bgm');
   }
 
   initScore() {

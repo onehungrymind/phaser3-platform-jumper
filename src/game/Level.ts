@@ -26,12 +26,13 @@ export class Level {
         immovable: true,
       }),
       hud: this.scene.physics.add.group({ allowGravity: false }),
-      bgDecoration: this.scene.physics.add.group(),
+      bgDecoration: this.scene.physics.add.group({ allowGravity: false }),
     };
   }
 
   loadLevel(data) {
     this.spawnBG();
+    this.spawnDecorations(data.decoration);
     this.spawnDoor(data.door);
     this.spawnPlatforms(data.platforms);
     this.spawnHero(data.hero);
@@ -172,6 +173,19 @@ export class Level {
     );
     _platform.setOrigin(0, 0);
     return _platform;
+  }
+
+  spawnDecorations(decorations) {
+    decorations.forEach((decoration) => {
+      const _decoration = this.scene.add.sprite(
+        decoration.x,
+        decoration.y,
+        'decoration',
+        decoration.frame
+      );
+      _decoration.setOrigin(0, 0);
+      this.groups.bgDecoration.add(_decoration);
+    });
   }
 
   spawnBG() {
